@@ -12,7 +12,11 @@
           <h3 class="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
           <h3 class="font-semibold text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
         </div>
-
+        @if (count($products)==0)
+        <div class="p-4 mb-4 text-sm text-black-800 rounded-lg bg-green-50 " role="alert">
+          <p class="font-medium text-center">No item added !</p>
+        </div>
+        @endif
         @foreach ($products as $product)
 
         <div class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
@@ -21,9 +25,13 @@
             <div class="w-20">
               <img class="h-24" src={{$product->imageUrl}} alt="">
             </div>
-            <div class="flex flex-col justify-between ml-4 flex-grow">
+            <div class="flex flex-col justify-between ml-4 flex-grow">  
               <span class="font-bold text-sm">{{$product->title}}</span>
-              <a href="#" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</a>
+              <form action="/cart_delete" method="POST">
+                @csrf
+                <input type="hidden" name="cart_id" value="{{$product->cart_id}}">
+                <button type="submit" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Remove</button>
+              </form>
             </div>
           </div>
           <div class="flex justify-center w-1/5">
@@ -90,8 +98,13 @@
             <span>Total cost</span>
             <span>${{$total}}</span>
           </div>
+          <form action="/orders" method="POST">
+            @csrf
+            <input type="hidden" name="totalCost" value={{$total}} >
           <button
             class="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
+          </form>
+    
         </div>
       </div>
 

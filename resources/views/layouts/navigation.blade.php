@@ -1,6 +1,8 @@
 @php
     use App\Http\Controllers\CartController;
     $count = CartController::cartItemCount();
+
+
 @endphp
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
@@ -27,16 +29,24 @@
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
+                        Cart ({{$count}})
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
                         {{ __('About') }}
                     </x-nav-link>
                 </div>
 
+                @if (Auth()->user()->hasRole('admin'))
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('cart')" :active="request()->routeIs('cart')">
-                        Cart ({{$count}})
+                    <x-nav-link :href="route('order.read')" :active="request()->routeIs('order.read')">
+                        {{ __('Orders') }}
                     </x-nav-link>
                 </div>
+                @endif
             </div>
 
             <!-- Settings Dropdown -->

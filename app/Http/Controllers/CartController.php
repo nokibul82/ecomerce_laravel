@@ -32,39 +32,13 @@ class CartController extends Controller
             return redirect('/home');
         }
 
-        // $cart = session()->get('cart');
+    }
 
-        // if (!$cart) {
-        //     $cart = [
-        //         $product->id => [
-        //             'title'     => $product->title,
-        //             'price'     => $product->price,
-        //             'quantity'  => 1,
-        //             'imageUrl'  => $product->imageUrl,
-        //         ]
-        //     ];
-        //     session()->put('cart',$cart);
-        //     return redirect('/home');
-        // }
-
-        // if(isset($cart[$product->id])){
-        //     $cart[$product->id]['quantity']++;
-        //     session()->put('cart',$cart);
-        //     return redirect('/home');
-        // }
-
-        // $cart = [
-        //     $product->id => [
-        //         'title'     => $product->title,
-        //         'price'     => $product->price,
-        //         'quantity'  => 1,
-        //         'imageUrl'  => $product->imageUrl,
-        //     ]
-        // ];
-
-        // session()->put('cart',$cart);
-        // return redirect('/home');
-
+    public function delete(Request $request)
+    {
+        $cart = Cart::where('id',$request->cart_id)->first();
+        $cart->delete();
+        return redirect('cart');
     }
 
     static public function cartItemCount()
